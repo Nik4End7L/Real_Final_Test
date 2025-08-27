@@ -1,19 +1,18 @@
-CREATE_TASKS = """
-    CREATE TABLE IF NOT EXISTS tasks (
+CREATE_GOODS = """
+    CREATE TABLE IF NOT EXISTS goods (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    task TEXT NOT NULL,
-    completed INTEGER DEFAULT 0,
-    date_t TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    goods TEXT NOT NULL,
+    completed INTEGER DEFAULT 0
     )
 """
 
-INSERT_TASK = "INSERT INTO tasks (task, date_t) VALUES (?, ?)"
+INSERT_GOODS = "INSERT INTO goods (goods) VALUES (?)"
 
-SELECT_TASK = "SELECT id, task, completed, date_t FROM tasks"
+SELECT_GOODS = "SELECT id, goods, completed FROM goods"
 
-SELECT_TASK_COMPLETED = "SELECT id, task, completed, date_t FROM tasks WHERE completed = 1"
-SELECT_TASK_UNCOMPLETED = "SELECT id, task, completed, date_t FROM tasks WHERE completed = 0"
+SELECT_GOODS_COMPLETED = "SELECT id, goods, completed FROM goods WHERE completed = 1"
+SELECT_GOODS_UNCOMPLETED = "SELECT id, goods, completed FROM goods WHERE completed = 0"
 
-UPDATE_TASK = "UPDATE tasks SET task = ? WHERE id = ?"
+UPDATE_GOODS = "UPDATE goods SET goods = ? WHERE id = ?"
 
-DELETE_TASK = "DELETE FROM tasks WHERE id = ?"
+DELETE_GOODS = "DELETE FROM goods WHERE id = ?"

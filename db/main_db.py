@@ -1,63 +1,60 @@
 import sqlite3
 from db import queries
 from config import db_path
-import datetime
 
 
 def init_db():
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
-    cursor.execute(queries.CREATE_TASKS)
-    print('База данных подключена!')
+    cursor.execute(queries.CREATE_GOODS)
     conn.commit()
     conn.close()
 
 
-def add_task(task):
+def add_goods(goods):
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
-    now = datetime.datetime.now().isoformat(timespec="seconds")
-    cursor.execute(queries.INSERT_TASK, (task, now))
+    cursor.execute(queries.INSERT_GOODS, (goods,))
     conn.commit()
-    task_id = cursor.lastrowid
+    goods_id = cursor.lastrowid
     conn.close()
-    return task_id
+    return goods_id
 
 
-def get_task(filter_type='all'):
+def get_goods(filter_type='all'):
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
 
     if filter_type == 'completed':
-        cursor.execute(queries.SELECT_TASK_COMPLETED)
+        cursor.execute(queries.SELECT_GOODS_COMPLETED)
     elif filter_type == 'uncompleted':
-        cursor.execute(queries.SELECT_TASK_UNCOMPLETED)
+        cursor.execute(queries.SELECT_GOODS_UNCOMPLETED)
     else:
-        cursor.execute(queries.SELECT_TASK)
+        cursor.execute(queries.SELECT_GOODS)
 
-    tasks = cursor.fetchall()
+    goods = cursor.fetchall()
     conn.close()
-    return tasks 
+    return goods 
 
 
-def delete_task(task_id):
+def delete_goods(goods_id):
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
-    cursor.execute(queries.DELETE_TASK, (task_id,))
+    cursor.execute(queries.DELETE_GOODS, (goods_id,))
     conn.commit()
     conn.close()
 
 
-def update_task(task_id, new_task=None, completed=None):
+def update_goods(goods_id, new_goods=None, completed=None):
     conn = sqlite3.connect(db_path)
     cursor = conn.cursor()
 
-    if new_task is not None and completed is not None:
-        cursor.execute("UPDATE tasks SET task = ?, completed = ? WHERE id = ?", (new_task, completed, task_id))
-    elif new_task is not None:
-        cursor.execute(queries.UPDATE_TASK, (new_task, task_id))
+    if new_goods is not None and completed is not None:
+        cursor.execute("UPDATE goods SET goods = ?, completed = ? WHERE id = ?", (new_goods, completed, goods_id))
+    elif new_goods is not None:
+        cursor.execute(queries.UPDATE_GOODS, (new_goods, goods_id))
     elif completed is not None:
-        cursor.execute("UPDATE tasks SET completed = ? WHERE id = ?", (completed, task_id))
+        cursor.execute("UPDATE goods SET completed = ? WHERE id = ?", (completed, goods_id))
 
     conn.commit()
     conn.close()

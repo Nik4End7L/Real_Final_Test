@@ -1,1 +1,1 @@
-db_path = "db/todo.db"
+db_path = "db/buy_list.db"
